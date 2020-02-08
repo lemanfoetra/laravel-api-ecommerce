@@ -92,6 +92,13 @@ class ProductController extends Controller
         //
     }
 
+
+
+
+
+
+
+
     /**
      * Update the specified resource in storage.
      *
@@ -100,9 +107,33 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Product $product)
-    {
-        //
+    {   
+        $result = $product->update($request->all());
+        if($result){
+            return response()->json(
+                [
+                    'status'    =>  'success',
+                    'message'   =>  'Produk Diupdate',
+                    'result'    =>  $product,
+                    // 'result' =>  $request->all(),
+                ], 
+                200
+            );
+        }
+        return response()->json(
+            [
+                'status'    => 'failed',
+            ]
+        );
     }
+
+
+
+
+
+
+
+    
 
     /**
      * Remove the specified resource from storage.
