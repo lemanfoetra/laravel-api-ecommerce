@@ -133,7 +133,7 @@ class ProductController extends Controller
 
 
 
-    
+
 
     /**
      * Remove the specified resource from storage.
@@ -143,6 +143,22 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $result = $product->delete();
+        if($result){
+            return response()->json(
+                [
+                    'status'    =>  'success',
+                    'message'   =>  'Produk Dihapus'
+                ], 
+                200
+            );
+        }
+
+        return response()->json(
+            [
+                'status'    =>  'failed'
+            ], 
+            200
+        );
     }
 }
