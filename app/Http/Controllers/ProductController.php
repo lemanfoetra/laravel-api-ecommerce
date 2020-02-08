@@ -6,9 +6,18 @@ use App\Model\Product;
 use Illuminate\Http\Request;
 use App\Http\Resources\Product\ProductResource;
 use App\Http\Resources\Product\ProductShowResource;
+use App\Http\Requests\ProductStore;
 
 class ProductController extends Controller
 {
+
+
+    public function __construct()
+    {
+        $this->middleware('auth:api')->except('index','show');
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -35,10 +44,29 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductStore $request)
     {
-        //
+        //return new ProductStore($request->all());
+        $product = new Product();
+        $product->name      = $request->name;
+        $product->price     = $request->price;
+        $product->stock     = $request->stock;
+        $product->detail    = $request->detail;
+        $product->discount  = $request->discount;
+        $product->save();
+
+        return response()->json(
+            [
+                'status'    =>  'success',
+                'message'   =>  'Produk disimpan',
+                'result'    =>  new ProductShowResource($product),
+                // 'result' =>  $request->all(),
+            ], 
+            200
+        );
     }
+
+
 
     /**
      * Display the specified resource.
@@ -50,6 +78,8 @@ class ProductController extends Controller
     {
         return new ProductShowResource($product);
     }
+
+
 
     /**
      * Show the form for editing the specified resource.
