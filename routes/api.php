@@ -18,10 +18,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-
-
 Route::apiResource('product', 'ProductController');
-
 Route::group(['prefix' => 'product'], function(){
 	Route::apiResource('{product}/review', 'ReviewController');
+});
+
+
+Route::post('login', 'API\UserController@login');
+Route::post('register', 'API\UserController@register');
+
+Route::group(['middleware' => 'auth:api'], function(){
+    Route::post('details', 'API\UserController@details');
 });
