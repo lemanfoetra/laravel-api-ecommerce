@@ -134,7 +134,22 @@ class ReviewController extends Controller
      */
     public function destroy(Product $product, Review $review)
     {
-        //
+        $result = $review->delete($review->id);
+        if($result){
+            return response()->json(
+                [
+                    'status'    =>  'success',
+                    'message'   =>  'Review dihapus',
+                ], 
+                200
+            );
+        }
+        return response()->json(
+            [
+                'status'    =>  'error',
+            ], 
+            404
+        );
     }
 
 
