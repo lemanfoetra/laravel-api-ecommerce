@@ -22,6 +22,8 @@ trait ApiTrait {
                 'message'   => 'Incorrect route/link',
             ], 404);
         }
+        
 
+        return parent::render($request, $exception);
     }
 }

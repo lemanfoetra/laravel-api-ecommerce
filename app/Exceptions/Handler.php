@@ -51,13 +51,11 @@ class Handler extends ExceptionHandler
     {
         //dd($exception);
 
-       
         // Hanya tampil jika di header mengirim Accept = application/json  
         if($request->expectsJson()){
             return $this->apiException($request, $exception);
         }
-        
 
-        return parent::render($request, $exception);
+        //return parent::render($request, $exception);
     }
 }

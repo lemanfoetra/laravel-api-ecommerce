@@ -6,9 +6,17 @@ use App\Model\Review;
 use App\Model\Product;
 use Illuminate\Http\Request;
 use App\Http\Resources\Review\ReviewResource;
+use App\Http\Requests\ReviewStore;
 
 class ReviewController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:api')->except('index', 'show');
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -35,9 +43,36 @@ class ReviewController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Product $product, ReviewStore $request)
     {
-        //
+
+        if($this->isEqualProduct($product->id) > 0){
+
+            $review = new Review();
+            $review->product_id = $product->id;
+            $review->customer   = $request->customer;
+            $review->review     = $request->review;
+            $review->star       = $request->star;
+            $result = $review->save();
+    
+            if($result){
+                return response()->json(
+                    [
+                        'status'    =>  'success',
+                        'message'   =>  'Produk disimpan',
+                        'result'    =>  $request->all(),
+                    ], 
+                    200
+                );
+            }
+        }
+       
+        return response()->json(
+            [
+                'status'    =>  'error'
+            ], 
+            404
+        );
     }
 
     /**
@@ -83,5 +118,12 @@ class ReviewController extends Controller
     public function destroy(Review $review)
     {
         //
+    }
+
+
+
+    protected function isEqualProduct($product_id = ''){
+        $product = new Product();
+        return $product->where('id', $product_id)->count();
     }
 }
