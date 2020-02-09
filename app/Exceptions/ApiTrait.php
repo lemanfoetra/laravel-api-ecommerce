@@ -13,7 +13,7 @@ trait ApiTrait {
         if($exception instanceof ModelNotFoundException ){
             return response()->json([
                 'status'    => 'error',
-                'message'   => 'produk tidak ada',
+                'message'   => 'Object yang ingin anda tampilkan tidak ada.',
             ], 404);
         }
         if($exception instanceof NotFoundHttpException){

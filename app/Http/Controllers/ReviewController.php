@@ -59,7 +59,7 @@ class ReviewController extends Controller
                 return response()->json(
                     [
                         'status'    =>  'success',
-                        'message'   =>  'Produk disimpan',
+                        'message'   =>  'Review disimpan',
                         'result'    =>  $request->all(),
                     ], 
                     200
@@ -111,7 +111,7 @@ class ReviewController extends Controller
             return response()->json(
                 [
                     'status'    =>  'success',
-                    'message'   =>  'Produk disimpan',
+                    'message'   =>  'Review disimpan',
                     'result'    =>  $request->all(),
                 ], 
                 200
