@@ -104,9 +104,26 @@ class ReviewController extends Controller
      * @param  \App\Model\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Review $review)
+    public function update(Request $request, Product $product, Review $review)
     {
-        //
+        $result = $review->update($request->all());
+        if($result){
+            return response()->json(
+                [
+                    'status'    =>  'success',
+                    'message'   =>  'Produk disimpan',
+                    'result'    =>  $request->all(),
+                ], 
+                200
+            );
+        }
+        return response()->json(
+            [
+                'status'    =>  'error',
+            ], 
+            404
+        );
+
     }
 
     /**
@@ -115,7 +132,7 @@ class ReviewController extends Controller
      * @param  \App\Model\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Review $review)
+    public function destroy(Product $product, Review $review)
     {
         //
     }
